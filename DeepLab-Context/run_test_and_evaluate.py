@@ -155,7 +155,8 @@ def convert_png_result_to_geojson(result_list):
         # read geo information
         if rsimg_obj.open(test_data[i][0]) is False:
             return False
-        result_file = os.path.join( os.path.split(result_list[i])[0] , test_data[i][2]+'_blob_0.png')
+        #result_file = os.path.join(os.path.split(result_list[i])[0] , test_data[i][2]+'_blob_0.png')
+        result_file = os.path.join(os.path.split(result_list[i])[0], test_data[i][1] + '_blob_0.png')
         if result_file not in result_list:
             basic.outputlogMessage('result_file file not in the list %s'%result_file)
             return False
