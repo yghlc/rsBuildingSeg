@@ -37,15 +37,47 @@ def delete_fouth_coloumn_csv(csv_path):
 
     save_csv.close()
 
-    return True
+    return save_path
 
+def merge_AOI_result_csv(file_list,output):
 
+    save_csv = open(output, 'wb')
+    csv_writer = csv.writer(save_csv)
+    for csv_file in file_list:
+        with open(csv_file, 'rb') as f:
+            reader = csv.reader(f)
+            input_list = map(tuple, reader)
+            f.close()
+        # number = 1
+        for line in input_list:
+            # if number ==1:
+            #     number = number+1
+            #     continue
+            # number = number + 1
+            save_ele = list(line)
+
+            # if save_ele[0].find('AOI')<0:
+            #     continue
+
+            # line[3] = str(1)
+            # save_ele[3] = str(1)
+            csv_writer.writerows([save_ele])
+            # csv_writer.writerows([line])
+
+    save_csv.close()
+
+    pass
 
 def main(options, args):
 
-    path = args[0]
+    path_list = args
     # path = 'result_buildings.csv'
-    delete_fouth_coloumn_csv(path)
+    modify_list = []
+    for path in path_list:
+        m_path = delete_fouth_coloumn_csv(path)
+        modify_list.append(m_path)
+
+    merge_AOI_result_csv(modify_list,'result_buildings_Test_public.csv')
 
     pass
 
@@ -53,7 +85,7 @@ def main(options, args):
 
 
 if __name__=='__main__':
-    usage = "usage: %prog [options] csv_file "
+    usage = "usage: %prog [options] csv_file ... "
     parser = OptionParser(usage=usage, version="1.0 2017-4-24")
 
     (options, args) = parser.parse_args()
@@ -62,3 +94,5 @@ if __name__=='__main__':
         exit(1)
 
     main(options, args)
+
+    print ('finished')
