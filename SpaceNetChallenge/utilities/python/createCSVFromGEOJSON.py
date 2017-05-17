@@ -50,7 +50,7 @@ def createCSVFromGEOJSON(rasterList,geoJsonList,outputCSVFileName):
     print("starting")
     lT.createCSVSummaryFile(chipSummaryList, outputCSVFileName,
                             replaceImageID="",
-                            createProposalsFile=False,
+                            createProposalsFile=True,  # True will output the confidence
                             pixPrecision=2)
 
     print("finished")
