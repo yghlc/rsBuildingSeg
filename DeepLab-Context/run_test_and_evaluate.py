@@ -11,12 +11,13 @@ add time: 22 April, 2017
 
 import os,sys
 # modify this if necessary
-codes_path = '/home/hlc/codes/PycharmProjects/rsBuildingSeg'
+HOME = os.path.expanduser('~')
+codes_path = HOME +'/codes/rsBuildingSeg'
 sys.path.insert(0, codes_path)
 
 # modify this if necessary
-expr='/media/hlc/DATA/Data_lingcao/aws_SpaceNet/deeplab_exper/spacenet_rgb_aoi_2'
-gpuid = 0
+expr=HOME+'/experiment/caffe_deeplab/spacenet_rgb_aoi_2-4'
+gpuid = 6
 NET_ID = 'deeplab_largeFOV'  # model name
 
 
@@ -45,7 +46,7 @@ import SpaceNetChallenge.utilities.python.createCSVFromGEOJSON as createCSVFromG
 
 
 if os.path.isdir(expr) is False:
-    print 'error, % not exist '%expr
+    print 'error, %s not exist '%expr
     exit(1)
 
 run_deeplab.EXP = expr
@@ -63,31 +64,72 @@ mat_file_foler = expr+'/features/'+NET_ID+ '/val/fc8'
 
 
 
-
+class SampleClass(object):
+    image = ''      # path of image
+    groudT = ''     # path of groud image
+    id = ''         # file ID
+# list of SampleClass
 test_data = []
 
+
 def read_test_data(test_file,file_id):
+
     if os.path.isfile(test_file) is False:
         basic.outputlogMessage('error: file not exist %s'%test_file)
         return False
     f_obj = open(test_file)
-    fid_obj = open(file_id)
     f_lines = f_obj.readlines()
-    fid_lines = fid_obj.readlines()
-    fid_obj.close()
     f_obj.close()
 
-    if len(f_lines) != len(fid_lines):
-        basic.outputlogMessage('the number of lines in test_file and test_file_id is not the same')
+    if file_id is not None:
+        fid_obj = open(file_id)
+        fid_lines = fid_obj.readlines()
+        fid_obj.close()
+
+        if len(f_lines) != len(fid_lines):
+            basic.outputlogMessage('the number of lines in test_file and test_file_id is not the same')
+            return False
+
+        for i in range(0,len(f_lines)):
+            temp = f_lines[i].split()
+            sample = SampleClass()
+            sample.image = temp[0]
+            if len(temp) > 1:
+                sample.groudT = temp[1]
+            sample.id = fid_lines[i].strip()
+            test_data.append(sample)
+    else:
+        for i in range(0, len(f_lines)):
+            temp = f_lines[i].split()
+            sample = SampleClass()
+            sample.image = temp[0]
+            if len(temp) > 1:
+                sample.groudT = temp[1]
+            test_data.append(sample)
+
+    # prepare file for pytorch_deeplab_resnet
+    if len(test_data)< 1:
+        basic.outputlogMessage('error, not input test data ')
         return False
 
-    for i in range(0,len(f_lines)):
-        temp = f_lines[i].split()
-        # temp[1].
-        temp.append(fid_lines[i].strip())
-        test_data.append(temp)
+    # check all image file and ground true file
+    for sample in test_data:
+        # check image path
+        image_basename = os.path.basename(sample.image)
+        if os.path.isfile(sample.image) is False:
+            basic.outputlogMessage('error, file not exist: %s'%sample.image)
+            return False
 
+        # check ground path
+        if len(sample.groudT)>0 and os.path.isfile(sample.groudT) is False:
+            basic.outputlogMessage('error, file not exist: %s' % sample.groudT)
+            return False
+
+        # if len(sample.id)< 1:
+        #     sample.id = os.path.splitext(image_basename)[0]
+    basic.outputlogMessage('read test data completed, sample count %d'%len(test_data))
     return True
+
 
 
 def run_test():
@@ -153,10 +195,10 @@ def convert_png_result_to_geojson(result_list):
 
     for i in range(0,len(result_list)):
         # read geo information
-        if rsimg_obj.open(test_data[i][0]) is False:
+        if rsimg_obj.open(test_data[i].image) is False:
             return False
         #result_file = os.path.join(os.path.split(result_list[i])[0] , test_data[i][2]+'_blob_0.png')
-        result_file = os.path.join(os.path.split(result_list[i])[0], test_data[i][1] + '_blob_0.png')
+        result_file = os.path.join(os.path.split(result_list[i])[0], test_data[i].id + '_blob_0.png')
         if result_file not in result_list:
             basic.outputlogMessage('result_file file not in the list %s'%result_file)
             return False
@@ -174,7 +216,7 @@ def convert_png_result_to_geojson(result_list):
         # pix = im.load()
         # im_data = numpy.array(pix)
 
-        imgID = test_data[i][2]
+        imgID = test_data[i].id
 
         geojson = geoJSONfromCluster.CreateGeoJSON(geojson_without_fix_folder,imgID,im_data,geom,prj)
         fix_geojson = FixGeoJSON.FixGeoJSON(geojson,geojson_folder)
@@ -206,7 +248,7 @@ def main():
     geojson_list = convert_png_result_to_geojson(result_list)
 
     # original raster file list, can get extract imageID
-    rasterList = [item[0] for item in test_data]
+    rasterList = [item.image for item in test_data]
     outputCSVFileName = os.path.join(mat_file_foler,'result_buildings.csv')
     if createCSVFromGEOJSON.createCSVFromGEOJSON(rasterList,geojson_list,outputCSVFileName) is not True:
         return False
