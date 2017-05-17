@@ -10,12 +10,12 @@ add time: 23 April, 2017
 
 import os,sys
 # modify this if necessary
-codes_path = '/home/hlc/codes/PycharmProjects/rsBuildingSeg'
+codes_path = '/home/hlc/codes/rsBuildingSeg'
 sys.path.insert(0, codes_path)
 
 # modify this if necessary
-expr='/media/hlc/DATA/Data_lingcao/aws_SpaceNet/deeplab_exper/spacenet_rgb_aoi_2'
-gpuid = 0
+expr='/home/lchuang/experiment/caffe_deeplab/spacenet_rgb_aoi_2-4'
+gpuid = 6
 NET_ID = 'deeplab_largeFOV'  # model name
 
 
@@ -34,7 +34,7 @@ from basic.RSImageProcess import RSImgProclass
 
 
 if os.path.isdir(expr) is False:
-    print 'error, % not exist '%expr
+    print 'error, %s not exist '%expr
     exit(1)
 
 run_deeplab.EXP = expr
@@ -42,7 +42,7 @@ run_deeplab.DEV_ID = gpuid
 run_deeplab.NET_ID = NET_ID
 
 #TRAIN = 1
-train_file = os.path.join(expr,'list/train_aug.txt')
+train_file = os.path.join(expr,'list/train_aug_all.txt')
 test_file = os.path.join(expr,'list/test_aug.txt')
 train_prototxt_tem = os.path.join(expr,'config',NET_ID,'train.prototxt')
 train_solver_tem = os.path.join(expr,'config',NET_ID,'solver.prototxt')
