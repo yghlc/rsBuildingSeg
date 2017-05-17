@@ -10,11 +10,12 @@ add time: 23 April, 2017
 
 import os,sys
 # modify this if necessary
-codes_path = '/home/hlc/codes/rsBuildingSeg'
+HOME = os.path.expanduser('~')
+codes_path = HOME+'/codes/rsBuildingSeg'
 sys.path.insert(0, codes_path)
 
 # modify this if necessary
-expr='/home/lchuang/experiment/caffe_deeplab/spacenet_rgb_aoi_2-4'
+expr= HOME+'/experiment/caffe_deeplab/spacenet_rgb_aoi_2-4'
 gpuid = 6
 NET_ID = 'deeplab_largeFOV'  # model name
 
