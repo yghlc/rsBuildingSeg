@@ -44,6 +44,14 @@ import SpaceNetData.FixGeoJSON as FixGeoJSON
 #sys.path.insert(0, os.getcwd() + '../SpaceNetChallenge/')
 import SpaceNetChallenge.utilities.python.createCSVFromGEOJSON as createCSVFromGEOJSON
 
+if len(sys.argv) == 2:
+    expr = sys.argv[1]
+    basic.outputlogMessage('set expr as : %s'%expr)
+if len(sys.argv) == 3:
+    expr = sys.argv[1]
+    gpuid=int(sys.argv[2])
+    basic.outputlogMessage('set expr as : %s' % expr)
+    basic.outputlogMessage('set gpuid as : %d' % gpuid)
 
 if os.path.isdir(expr) is False:
     print 'error, %s not exist '%expr

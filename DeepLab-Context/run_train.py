@@ -19,7 +19,6 @@ expr= HOME+'/experiment/caffe_deeplab/spacenet_rgb_aoi_2-4'
 gpuid = 6
 NET_ID = 'deeplab_largeFOV'  # model name
 
-
 sys.path.insert(0, codes_path+'/DeepLab-Context')
 sys.path.insert(0,codes_path+'/DeepLab-Context/python/my_script/')
 
@@ -32,6 +31,15 @@ import basic.io_function as io_function
 import basic.calculate_meanvalue as calculate_meanvalue
 from basic.RSImage import RSImageclass
 from basic.RSImageProcess import RSImgProclass
+
+if len(sys.argv) == 2:
+    expr = sys.argv[1]
+    basic.outputlogMessage('set expr as : %s'%expr)
+if len(sys.argv) == 3:
+    expr = sys.argv[1]
+    gpuid=int(sys.argv[2])
+    basic.outputlogMessage('set expr as : %s' % expr)
+    basic.outputlogMessage('set gpuid as : %d' % gpuid)
 
 
 if os.path.isdir(expr) is False:
