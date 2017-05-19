@@ -17,7 +17,7 @@ sys.path.insert(0, codes_path)
 
 # modify this if necessary
 expr=HOME+'/experiment/caffe_deeplab/spacenet_rgb_aoi_2-4'
-gpuid = 6
+gpuid = 0
 NET_ID = 'deeplab_largeFOV'  # model name
 
 
