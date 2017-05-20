@@ -258,6 +258,7 @@ def merge_edge_to_detected_result(edgemap_list, detected_png_list):
         if edge_data[i].image != test_data[i].image:
             basic.outputlogMessage('error, the source data for edge and building detection are different')
             return False
+        basic.outputlogMessage('merge edge to detection result: %d /%d'%(i+1,len(edge_data)))
 
         #merge two png (edge and detected)
         edge_file = edge_data[i].edge_map
@@ -302,6 +303,8 @@ def main():
     edge_file_list =  os.path.join(expr,'edge','edge_map.txt')
     if merge_edge_to_detected_result(edge_file_list,result_list) is False:
         return False
+
+    exit(1) #test
 
     #convert the result to csv table
     geojson_list = convert_png_result_to_geojson(result_list)
