@@ -31,7 +31,6 @@ import run_deeplab
 import subprocess,numpy
 
 from PIL import Image
-import cv2
 
 import basic.basic as basic
 import basic.io_function as io_function
@@ -221,7 +220,9 @@ def convert_png_result_to_geojson(result_list):
         geom = rsimg_obj.GetGeoTransform()
 
         # read pixel value
-        im_data = rsimgPro_obj.Read_Image_band_data_to_numpy_array_all_pixel(1,result_file)
+        # im_data = rsimgPro_obj.Read_Image_band_data_to_numpy_array_all_pixel(1,result_file)
+        im_det = Image.open(result_file)
+        im_data = numpy.array(im_det, dtype=numpy.uint8)
         if im_data is False:
             basic.outputlogMessage('Read image data failed: %s'%result_file)
             return False
