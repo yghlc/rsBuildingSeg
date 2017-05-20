@@ -304,7 +304,7 @@ def main():
     if merge_edge_to_detected_result(edge_file_list,result_list) is False:
         return False
 
-    exit(1) #test
+    # exit(1) #test
 
     #convert the result to csv table
     geojson_list = convert_png_result_to_geojson(result_list)
