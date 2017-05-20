@@ -10,6 +10,7 @@ add time: 22 April, 2017
 """
 
 import os,sys
+import scipy.misc as misc
 # modify this if necessary
 HOME = os.path.expanduser('~')
 codes_path = HOME +'/codes/rsBuildingSeg'
@@ -271,11 +272,12 @@ def merge_edge_to_detected_result(edgemap_list, detected_png_list):
         in_det[in_edge==0] = 0      # 0 is the value of edge pixel
 
         #backup for test
-        backcup_name = io_function.get_name_by_adding_tail(det_file,'_bak')
+        backcup_name = io_function.get_name_by_adding_tail(det_file,'bak')
         io_function.copy_file_to_dst(det_file,backcup_name)
 
         #over write original image
-        cv2.imwrite(det_file, in_det)
+        # cv2.imwrite(det_file, in_det)
+        misc.imsave(det_file, in_det)
 
     return True
 
