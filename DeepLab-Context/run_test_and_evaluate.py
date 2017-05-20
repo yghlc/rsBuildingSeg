@@ -263,15 +263,13 @@ def merge_edge_to_detected_result(edgemap_list, detected_png_list):
             basic.outputlogMessage('error, the source data for edge and building detection are different')
             return False
 
-
-
         #merge two png (edge and detected)
         edge_file = edge_data[i].edge_map
 
         im_edge = Image.open(edge_file)
         in_edge = numpy.array(im_edge, dtype=numpy.uint8)
 
-        det_file = os.path.join(os.path.split(detected_png_list[i], test_data[i].id + '_edge.png'))
+        det_file = os.path.join(os.path.split(detected_png_list[i])[0], test_data[i].id + '_edge.png')
         if det_file not in detected_png_list:
             basic.outputlogMessage('result_file file not in the list %s'%det_file)
             return False
