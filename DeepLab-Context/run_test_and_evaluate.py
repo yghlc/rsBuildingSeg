@@ -269,7 +269,8 @@ def merge_edge_to_detected_result(edgemap_list, detected_png_list):
         im_edge = Image.open(edge_file)
         in_edge = numpy.array(im_edge, dtype=numpy.uint8)
 
-        det_file = os.path.join(os.path.split(detected_png_list[i])[0], test_data[i].id + '_edge.png')
+        '_blob_0.png'
+        det_file = os.path.join(os.path.split(detected_png_list[i])[0], test_data[i].id + '_blob_0.png')
         if det_file not in detected_png_list:
             basic.outputlogMessage('result_file file not in the list %s'%det_file)
             return False
