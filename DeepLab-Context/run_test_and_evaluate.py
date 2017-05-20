@@ -262,7 +262,7 @@ def merge_edge_to_detected_result(edgemap_list, detected_png_list):
         if edge_data[i].image != test_data[i].image:
             basic.outputlogMessage('error, the source data for edge and building detection are different')
             return False
-        basic.outputlogMessage('merge edge to detection result: %d /%d'%(i+1,len(edge_data)))
+
 
         #merge two png (edge and detected)
         edge_file = edge_data[i].edge_map
@@ -277,6 +277,9 @@ def merge_edge_to_detected_result(edgemap_list, detected_png_list):
         #backup for test
         backcup_name = io_function.get_name_by_adding_tail(det_file,'bak')
         io_function.copy_file_to_dst(det_file,backcup_name)
+
+        basic.outputlogMessage('merge edge to detection result: %d /%d: %s to %s' % (i + 1, len(edge_data),\
+                                                                                     os.path.basename(edge_file),os.path.basename(det_file)))
 
         #over write original image
         # cv2.imwrite(det_file, in_det)
