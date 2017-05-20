@@ -301,7 +301,7 @@ def main():
     if read_test_data(test_file,test_file_id) is False:
         return False
 
-    # run_test()
+    run_test()
 
     # get the deeplab output result, in png or tif format
     # result_list = convert_mat_to_png()
