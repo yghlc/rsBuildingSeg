@@ -30,6 +30,7 @@ import run_deeplab
 import subprocess,numpy
 
 from PIL import Image
+import cv2
 
 import basic.basic as basic
 import basic.io_function as io_function
@@ -75,6 +76,7 @@ mat_file_foler = expr+'/features/'+NET_ID+ '/val/fc8'
 class SampleClass(object):
     image = ''      # path of image
     groudT = ''     # path of groud image
+    edge_map=''     # path of edge map produced by network
     id = ''         # file ID
 # list of SampleClass
 test_data = []
@@ -232,6 +234,50 @@ def convert_png_result_to_geojson(result_list):
 
     return geojson_list
 
+def merge_edge_to_detected_result(edgemap_list, detected_png_list):
+    if io_function.is_file_exist(edgemap_list) is False:
+        return False
+
+    edge_data = []
+    f_obj = open(edgemap_list)
+    f_lines = f_obj.readlines()
+    f_obj.close()
+    for i in range(0, len(f_lines)):
+        temp = f_lines[i].split()
+        sample = SampleClass()
+        sample.image = temp[0]
+        sample.edge_map = temp[1]
+        edge_data.append(sample)
+
+    if len(edge_data) != len(detected_png_list):
+        basic.outputlogMessage('error, the count of edge map is different from the one of detected result')
+        return False
+
+    # make sure edge_data have the same order of png list
+    for i in range(0,edge_data):
+        if edge_data[i].image != test_data[i].image:
+            basic.outputlogMessage('error, the source data for edge and building detection are different')
+            return False
+
+        #merge two png (edge and detected)
+        edge_file = edge_data[i].edge_map
+        det_file = detected_png_list[i]
+        im_edge = Image.open(edge_file)
+        in_edge = numpy.array(im_edge, dtype=numpy.uint8)
+
+        im_det = Image.open(det_file)
+        in_det = numpy.array(im_det, dtype=numpy.uint8)
+        in_det[in_edge==0] = 0      # 0 is the value of edge pixel
+
+        #backup for test
+        backcup_name = io_function.get_name_by_adding_tail(det_file,'_bak')
+        io_function.copy_file_to_dst(det_file,backcup_name)
+
+        #over write original image
+        cv2.imwrite(det_file, in_det)
+
+    return True
+
 
 def spaceNet_evaluate():
     pass
@@ -251,6 +297,11 @@ def main():
         return False
 
     # the file in result_list don't have the same order as the files in read_data
+
+    # merge the edge information to detected png result
+    edge_file_list =  os.path.join(expr,'edge','edge_map.txt')
+    if merge_edge_to_detected_result(edge_file_list,result_list) is False:
+        return False
 
     #convert the result to csv table
     geojson_list = convert_png_result_to_geojson(result_list)
