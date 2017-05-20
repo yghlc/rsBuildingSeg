@@ -269,7 +269,6 @@ def merge_edge_to_detected_result(edgemap_list, detected_png_list):
         im_edge = Image.open(edge_file)
         in_edge = numpy.array(im_edge, dtype=numpy.uint8)
 
-        '_blob_0.png'
         det_file = os.path.join(os.path.split(detected_png_list[i])[0], test_data[i].id + '_blob_0.png')
         if det_file not in detected_png_list:
             basic.outputlogMessage('result_file file not in the list %s'%det_file)
@@ -302,7 +301,7 @@ def main():
     if read_test_data(test_file,test_file_id) is False:
         return False
 
-    run_test()
+    # run_test()
 
     # get the deeplab output result, in png or tif format
     # result_list = convert_mat_to_png()
