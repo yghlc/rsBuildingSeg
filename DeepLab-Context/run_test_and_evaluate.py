@@ -169,16 +169,18 @@ def convert_mat_to_png(mat_folder, b_runmatlab=True):
     # os.chdir(original_path)
 
     # using python script instead of matlab script
-    if mat_To_png.convert_mat_to_png(mat_folder) is False:
+    result = mat_To_png.convert_mat_to_png(mat_folder)
+    if  result is False:
         return False
 
     # read the png or tif files list
-    result = io_function.get_file_list_by_ext('.tif',mat_file_foler,bsub_folder=False)
-    if len(result) < 1:
-        result = io_function.get_file_list_by_ext('.png', mat_file_foler, bsub_folder=False)
-    if len(result) < 1:
-        basic.outputlogMessage('error, Not result (.tif or .png) in Mat folder:%s'%mat_file_foler)
-        return False
+    # result = io_function.get_file_list_by_ext('.tif',mat_file_foler,bsub_folder=False)
+    # result = io_function.get_file_list_by_ext('.mat', mat_file_foler, bsub_folder=False)
+    # if len(result) < 1:
+    #     result = io_function.get_file_list_by_ext('.png', mat_file_foler, bsub_folder=False)
+    # if len(result) < 1:
+    #     basic.outputlogMessage('error, Not result (.tif or .png) in Mat folder:%s'%mat_file_foler)
+    #     return False
     if len(result) != len(test_data):
         basic.outputlogMessage('error, the count of results is not the same as input test file')
         return False

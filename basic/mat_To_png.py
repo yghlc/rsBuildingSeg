@@ -70,8 +70,8 @@ def deeplabMat2png(mat_path):
     # im.save(save_png)
 
     misc.imsave(save_png,result)
+    return save_png
 
-    return True
 
 
 def convert_mat_to_png(mat_folder):
@@ -84,12 +84,14 @@ def convert_mat_to_png(mat_folder):
         basic.outputlogMessage('error, no mat found in ' + mat_folder)
         return False
     number = 0
+    result_list = []
     for matpath in file_list:
         number = number+1
-        basic.outputlogMessage('%d / %d : %s'%(number,len(file_list),matpath))
-        deeplabMat2png(matpath)
+        basic.outputlogMessage('Mat to png: %d / %d : %s'%(number,len(file_list),matpath))
+        result = deeplabMat2png(matpath)
+        result_list.append(result)
 
-    return True
+    return result_list
 
 def main(options, args):
     # matpath = 'RGB-PanSharpen_AOI_2_Vegas_8bit_img4_blob_0.mat'
