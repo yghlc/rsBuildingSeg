@@ -254,7 +254,7 @@ def merge_edge_to_detected_result(edgemap_list, detected_png_list):
         return False
 
     # make sure edge_data have the same order of png list
-    for i in range(0,edge_data):
+    for i in range(0,len(edge_data)):
         if edge_data[i].image != test_data[i].image:
             basic.outputlogMessage('error, the source data for edge and building detection are different')
             return False
