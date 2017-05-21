@@ -312,9 +312,9 @@ def main():
     # the file in result_list don't have the same order as the files in read_data
 
     # merge the edge information to detected png result
-    edge_file_list =  os.path.join(expr,'edge','edge_map.txt')
-    if merge_edge_to_detected_result(edge_file_list,result_list) is False:
-        return False
+    # edge_file_list =  os.path.join(expr,'edge','edge_map.txt')
+    # if merge_edge_to_detected_result(edge_file_list,result_list) is False:
+    #     return False
 
     # exit(1) #test
 
