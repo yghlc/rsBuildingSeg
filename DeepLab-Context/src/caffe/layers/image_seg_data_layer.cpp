@@ -82,6 +82,7 @@ void ImageSegDataLayer<Dtype>::DataLayerSetUp(const vector<Blob<Dtype>*>& bottom
   const int channels = cv_img.channels();
   const int height = cv_img.rows;
   const int width = cv_img.cols;
+  LOG(INFO) << "Read the first image :" << lines_[lines_id_].first << " channels: "<<channels << "height: "<<height <<"width: "<<width;
   // image
   const int crop_size = this->layer_param_.transform_param().crop_size();
   const int batch_size = this->layer_param_.image_data_param().batch_size();
