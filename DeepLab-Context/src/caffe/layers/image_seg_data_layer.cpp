@@ -84,7 +84,7 @@ void ImageSegDataLayer<Dtype>::DataLayerSetUp(const vector<Blob<Dtype>*>& bottom
   const int width = cv_img.cols;
   LOG(INFO) << "Read the first image (lingcao):" << lines_[lines_id_].first << " channels: "<<channels << " height: "<<height <<" width: "<<width;
   // save first image for test
-  LOG(INFO) << "Save the first image to first_image.tif (lingcao), type " <<cv_img.type() <<"value of 100 pixel"<< cv_img.data[0][100];
+  LOG(INFO) << "Save the first image to first_image.tif (lingcao), type " <<cv_img.type() <<"value of 100 pixel:"<< cv_img.data[0];
   cv::imwrite( "first_image.tif", cv_img);
 
 
