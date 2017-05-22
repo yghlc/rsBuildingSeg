@@ -714,8 +714,8 @@ void Net<Dtype>::CopyTrainedLayersFrom(const NetParameter& param) {
       if (strict_dim) {
 	CHECK_EQ(target_blobs[j]->num(), source_layer.blobs(j).num())
 	  << "Incompatible parameter size for layer " << source_layer_name;
-	CHECK_EQ(target_blobs[j]->channels(), source_layer.blobs(j).channels())
-	  << "Incompatible parameter size for layer " << source_layer_name;
+//	CHECK_EQ(target_blobs[j]->channels(), source_layer.blobs(j).channels())
+//	  << "Incompatible parameter size for layer " << source_layer_name;
 	CHECK_EQ(target_blobs[j]->height(), source_layer.blobs(j).height())
 	  << "Incompatible parameter size for layer " << source_layer_name;
 	CHECK_EQ(target_blobs[j]->width(), source_layer.blobs(j).width())
