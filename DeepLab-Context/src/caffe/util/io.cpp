@@ -68,7 +68,7 @@ void WriteProtoToBinaryFile(const Message& proto, const char* filename) {
 cv::Mat ReadImageToCVMat(const string& filename,
 			 const int height, const int width, const bool is_color,
 			 int* img_height, int* img_width) {
-  LOG(INFO) << "ReadImageToCVMat, I'm here (lingcao) " << filename;
+//  LOG(INFO) << "ReadImageToCVMat, I'm here (lingcao) " << filename;
   cv::Mat cv_img;
   int cv_read_flag = (is_color ? CV_LOAD_IMAGE_COLOR :
     CV_LOAD_IMAGE_GRAYSCALE);
@@ -78,8 +78,8 @@ cv::Mat ReadImageToCVMat(const string& filename,
     LOG(ERROR) << "Could not open or find file " << filename;
     return cv_img_origin;
   }
-  LOG(INFO)<<"file (lingcao):"<<filename;
-  LOG(INFO)<<"width (lingcao): "<<cv_img_origin.cols<<" height: "<<cv_img_origin.rows<<" bandcount: "<<cv_img_origin.channels()<<" depth: "<<cv_img_origin.depth()<<" type: "<<cv_img_origin.type();
+//  LOG(INFO)<<"file (lingcao):"<<filename;
+//  LOG(INFO)<<"width (lingcao): "<<cv_img_origin.cols<<" height: "<<cv_img_origin.rows<<" bandcount: "<<cv_img_origin.channels()<<" depth: "<<cv_img_origin.depth()<<" type: "<<cv_img_origin.type();
 
   if (height > 0 && width > 0) {
     cv::resize(cv_img_origin, cv_img, cv::Size(width, height));
