@@ -78,8 +78,8 @@ cv::Mat ReadImageToCVMat(const string& filename,
     LOG(ERROR) << "Could not open or find file " << filename;
     return cv_img_origin;
   }
-  cout<<"file (lingcao):"<<filename<<endl;
-    cout<<"width (lingcao): "<<cv_img_origin.cols<<" height: "<<cv_img_origin.rows<<" bandcount: "<<cv_img_origin.channels()<<" depth: "<<cv_img_origin.depth()<<" type: "<<cv_img_origin.type()<<endl;
+  LOG(INFO)<<"file (lingcao):"<<filename;
+  LOG(INFO)<<"width (lingcao): "<<cv_img_origin.cols<<" height: "<<cv_img_origin.rows<<" bandcount: "<<cv_img_origin.channels()<<" depth: "<<cv_img_origin.depth()<<" type: "<<cv_img_origin.type();
 
   if (height > 0 && width > 0) {
     cv::resize(cv_img_origin, cv_img, cv::Size(width, height));
